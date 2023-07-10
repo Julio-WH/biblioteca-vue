@@ -1,3 +1,4 @@
+const boom = require('@hapi/boom');
 class BooksService {
     constructor(){
         this.books = [];
@@ -15,6 +16,7 @@ class BooksService {
 
                 id: index,
                 name: 'Libro-'+ index,
+                description: 'awesome book',
                 price: 200,
                 // image: faker.image.imageUrl(),
             });
@@ -26,6 +28,20 @@ class BooksService {
                 resolve(this.books);
             }, 5000);
         })
+    }
+    async create(data) {
+        const newBook={id: (this.books.length)+1,...data}
+        this.books.push(newBook);
+        return newBook;
+    }
+
+    async delete(id) {
+        const index = this.books.findIndex(item => item.id === id);
+        if (index === -1) {
+            throw boom.notFound('product not found');
+        }
+        this.books.splice(index, 1);
+        return { id };
     }
 }
 
