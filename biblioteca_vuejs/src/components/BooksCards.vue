@@ -1,5 +1,5 @@
 <template>
-  <div class="card h-100">
+  <div class="card" style="max-width: 600px">
     <img
       src="https://www.nbmchealth.com/wp-content/uploads/2018/04/default-placeholder-300x300.png"
       class="card-img-top"
@@ -10,11 +10,11 @@
       <p class="card-text">
         {{ book.description }}
       </p>
-      <p class="card-text">
+      <p v-if="book.price" class="card-text">
         Precio $
         {{ book.price }}
       </p>
-      <p class="text-center">
+      <p v-if="btn" class="text-center">
         <button type="button" class="btn btn-success m-2">Editar</button>
         <button type="button" class="btn btn-danger m-2">Eliminar</button>
       </p>
@@ -28,6 +28,7 @@ export default {
     book: {
       type: Object,
     },
+    btn: Boolean,
   },
 };
 </script>

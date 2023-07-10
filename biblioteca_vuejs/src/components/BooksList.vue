@@ -1,13 +1,15 @@
 <template>
   <div class="container">
     <h1 class="text-center mb-4">Listado de Libros con Vue.js</h1>
-    <button type="button" class="btn btn-primary">Agregar</button>
+    <router-link :to="{ name: 'agregar' }" class="btn btn-info m-2"
+      >Agregar</router-link
+    >
     <br />
     Libros totales {{ count }}
     <p v-if="!count">Cargando Los libros</p>
     <div v-else class="row row-cols-1 row-cols-md-4 g-2">
       <div class="col" v-for="(book, index) in list_books" :key="index">
-        <BooksCards :book="book" />
+        <BooksCards :book="book" :btn="true" />
       </div>
     </div>
   </div>

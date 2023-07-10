@@ -3,11 +3,11 @@ import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import "bootstrap/dist/css/bootstrap.css";
 import BooksList from "./components/BooksList.vue";
-import TesComponen from "./components/BookForm.vue";
+import BookForm from "./components/BookForm.vue";
 
 const routes = [
   { path: "/", component: BooksList, name: "home" },
-  { path: "/test", component: TesComponen, name: "test" },
+  { path: "/agregar", component: BookForm, name: "agregar" },
 ];
 
 const router = createRouter({
