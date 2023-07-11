@@ -25,9 +25,13 @@ class BooksService {
     find() {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
-                resolve(this.books);
+                resolve(this.books.reverse());
             }, 5000);
         })
+    }
+
+    async findOne(id) {
+        return this.books.find(item=>item.id===parseInt(id));
     }
     async create(data) {
         const newBook={id: (this.books.length)+1,...data}

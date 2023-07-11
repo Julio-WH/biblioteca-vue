@@ -39,7 +39,7 @@
           </p>
         </div>
         <p class="text-center">
-          <button type="submit" class="btn btn-success m-2">
+          <button @click="submit" type="submit" class="btn btn-success m-2">
             {{ computedTitle() }}
           </button>
           <router-link class="btn btn-danger m-2" :to="{ name: 'home' }"
@@ -53,6 +53,7 @@
 
 <script>
 import BooksCards from "./BooksCards.vue";
+const axios = require("axios");
 export default {
   name: "BookForm",
   components: {
@@ -63,7 +64,7 @@ export default {
       id: this.$route.params.id,
       nombre: "",
       descripcion: "",
-      autor: "",
+      autor: [0],
       precio: "",
     };
   },
@@ -78,8 +79,48 @@ export default {
         price: this.precio,
       };
     },
+    fechDetailBook() {
+      axios
+        .get(`http://localhost:3000/api/v1/books/${this.id}`)
+        .then((response) => {
+          const data = response.data;
+          this.nombre = data.name;
+          this.descripcion = data.description;
+          this.precio = data.price;
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    async submit() {
+      const url = !this.id
+        ? "http://localhost:3000/api/v1/books"
+        : `http://localhost:3000/api/v1/books/${this.id}`;
+      if (!this.id) {
+        try {
+          const response = await axios.post(url, this.computedBook());
+          if (response.request.status === 201) {
+            this.$router.push({ name: "home" });
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      } else {
+        try {
+          const response = await axios.patch(url, this.computedBook());
+          if (response.request.status === 200) {
+            this.$router.push({ name: "home" });
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      }
+    },
   },
   mounted() {
+    if (this.id) {
+      this.fechDetailBook();
+    }
     this.computedTitle();
     this.computedBook();
   },

@@ -4,9 +4,10 @@
     <router-link :to="{ name: 'agregar' }" class="btn btn-info m-2"
       >Agregar</router-link
     >
-    <br />
-    Libros totales {{ count }}
-    <p v-if="!count">Cargando Los libros</p>
+    <p>Libros totales {{ count }}</p>
+    <div v-if="!count" class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
     <div v-else class="row row-cols-1 row-cols-md-4 g-2">
       <div class="col" v-for="(book, index) in list_books" :key="index">
         <BooksCards :book="book" :btn="true" />
@@ -34,9 +35,8 @@ export default {
     },
     get_book() {
       axios
-        .get("http://localhost:3000/api/v1/books")
+        .get("http://192.168.1.75:3000/api/v1/books")
         .then((response) => {
-          console.log(response.data);
           this.count = response.data.length;
           this.list_books = response.data;
         })

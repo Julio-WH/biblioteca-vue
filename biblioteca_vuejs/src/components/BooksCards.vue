@@ -15,7 +15,11 @@
         {{ book.price }}
       </p>
       <p v-if="btn" class="text-center">
-        <button type="button" class="btn btn-success m-2">Editar</button>
+        <router-link
+          :to="{ name: 'editar', params: { id: book.id } }"
+          class="btn btn-success m-2"
+          >Editar</router-link
+        >
         <button type="button" class="btn btn-danger m-2">Eliminar</button>
       </p>
     </div>
