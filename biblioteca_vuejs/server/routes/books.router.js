@@ -23,7 +23,9 @@ router.get('/:id', async (req, res) => {
         const book = await service.findOne(id);
         res.json(book);
     } catch (error) {
-        console.error(error)
+        res.status(404).json({
+            message: error.message
+        });
     }
 });
 
@@ -31,13 +33,19 @@ router.patch('/:id', async (req, res) => {
     try {
         const {id} = req.params;
         const body = req.body;
-        const product = await service.update(id, body);
-        res.json(product);
+        const book = await service.update(id, body);
+        res.json(book);
     } catch (error) {
         res.status(404).json({
             message: error.message
         });
     }
+});
+
+router.delete('/:id',async (req, res) => {
+  const { id } = req.params;
+  const rta = await service.delete(id);
+  res.json(rta);
 });
 
 module.exports = router;

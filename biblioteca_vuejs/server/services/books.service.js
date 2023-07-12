@@ -31,8 +31,26 @@ class BooksService {
     }
 
     async findOne(id) {
-        return this.books.find(item=>item.id===parseInt(id));
+        const book = this.books.find(item=>item.id===parseInt(id));
+        if (!book) {
+            throw boom.notFound('book not found');
+        }
+        return book
     }
+
+    async update(id, changes) {
+        const index = this.books.findIndex(item => item.id === parseInt(id));
+        if (index === -1) {
+            throw boom.notFound('book not found');
+        }
+        const book = this.books[index];
+        this.books[index] = {
+        ...product,
+        ...changes
+        };
+    return this.products[index];
+    }
+
     async create(data) {
         const newBook={id: (this.books.length)+1,...data}
         this.books.push(newBook);
@@ -40,7 +58,7 @@ class BooksService {
     }
 
     async delete(id) {
-        const index = this.books.findIndex(item => item.id === id);
+        const index = this.books.findIndex(item => item.id === parseInt(id));
         if (index === -1) {
             throw boom.notFound('product not found');
         }
