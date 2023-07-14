@@ -1,21 +1,8 @@
 import { createApp } from "vue";
-import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap";
-import BooksList from "./components/BooksList.vue";
-import BookForm from "./components/BookForm.vue";
-
-const routes = [
-  { path: "/", component: BooksList, name: "home" },
-  { path: "/agregar", component: BookForm, name: "agregar" },
-  { path: "/editar/:id", component: BookForm, name: "editar" },
-];
-
-const router = createRouter({
-  history: createWebHistory(),
-  routes, // short for `routes: routes`
-});
+import router from "@/router/index";
 
 const app = createApp(App);
 app.use(router);
