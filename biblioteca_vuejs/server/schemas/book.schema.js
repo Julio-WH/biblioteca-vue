@@ -1,7 +1,7 @@
 const Joi = require('joi');
 
-const id = Joi.string().uuid();
-const name = Joi.string().alphanum().min(3).max(15);
+const id = Joi.number().integer()
+const name = Joi.string().min(3).max(100);
 const description = Joi.string().alphanum().min(3).max(150);
 const price = Joi.number().integer().min(10);
 
@@ -17,7 +17,7 @@ const updateBookSchema = Joi.object({
     description: description,
 });
 
-const getBooktSchema = Joi.object({
+const getBookSchema = Joi.object({
     id: id.required(),
 });
 

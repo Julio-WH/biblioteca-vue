@@ -1,18 +1,19 @@
 const express = require('express');
 const BooksService = require('./../services/books.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-// const { createBookSchema, updateBookSchema, getBookSchema } = require('./../schemas/book.schema');
+const { createBookSchema, updateBookSchema, getBookSchema } = require('./../schemas/book.schema');
 
 const router = express.Router();
 const service = new BooksService();
-
 
 router.get('/', async (req, res) => {
     const products = await service.find();
     res.json(products);
 });
 
-router.post('/', async (req, res) => {
+router.post('/',
+    validatorHandler(createBookSchema, 'body'),
+    async (req, res) => {
     const body = req.body;
     console.log(body)
     const newBook = await service.create(body);
@@ -20,36 +21,42 @@ router.post('/', async (req, res) => {
 });
 
 router.get('/:id',
-    // toDo Checar validatorHandler(getBookSchema, 'params'),
-    async (req, res) => {
+    validatorHandler(getBookSchema, 'params'),
+    async (req, res, next) => {
     try {
         const {id} = req.params;
         const book = await service.findOne(id);
         res.json(book);
     } catch (error) {
-        res.status(404).json({
-            message: error.message
-        });
+        next(error);
     }
 });
 
-router.patch('/:id', async (req, res) => {
+router.patch('/:id',
+    validatorHandler(getBookSchema, 'params'),
+    validatorHandler(updateBookSchema, 'body'),
+    async (req, res, next) => {
     try {
         const {id} = req.params;
         const body = req.body;
         const book = await service.update(id, body);
         res.json(book);
     } catch (error) {
-        res.status(404).json({
-            message: error.message
-        });
+        next(error);
     }
 });
 
-router.delete('/:id',async (req, res) => {
-  const { id } = req.params;
-  const rta = await service.delete(id);
-  res.json(rta);
+router.delete('/:id',
+    validatorHandler(getBookSchema, 'params'),
+    async (req, res) => {
+      const { id } = req.params;
+        try {
+            const rta = await service.delete(id);
+            res.json(rta);
+        }
+        catch (error) {
+            next(error);
+        }
 });
 
 module.exports = router;

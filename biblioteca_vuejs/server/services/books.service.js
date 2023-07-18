@@ -26,7 +26,7 @@ class BooksService {
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 resolve(this.books.reverse());
-            }, 5000);
+            }, 2000);
         })
     }
 
@@ -45,10 +45,10 @@ class BooksService {
         }
         const book = this.books[index];
         this.books[index] = {
-        ...product,
+        ...book,
         ...changes
         };
-    return this.products[index];
+    return this.books[index];
     }
 
     async create(data) {
@@ -60,7 +60,7 @@ class BooksService {
     async delete(id) {
         const index = this.books.findIndex(item => item.id === parseInt(id));
         if (index === -1) {
-            throw boom.notFound('product not found');
+            throw boom.notFound('book not found');
         }
         this.books.splice(index, 1);
         return { id };

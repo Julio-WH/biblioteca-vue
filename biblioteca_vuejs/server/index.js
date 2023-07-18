@@ -1,6 +1,7 @@
 const express = require('express');
 var cors = require('cors')
 const routerApi = require('./routes');
+const {boomErrorHandler} = require("./middlewares/error.handler");
 const app = express();
 const port = 3000;
 
@@ -12,6 +13,7 @@ app.get('/',(req, res)=>{
 });
 
 routerApi(app);
+app.use(boomErrorHandler);
 
 app.listen(port,()=>{
     console.log('mi port' + port)
