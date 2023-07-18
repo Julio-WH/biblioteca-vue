@@ -20,7 +20,14 @@
           class="btn btn-success m-2"
           >Editar</router-link
         >
-        <button type="button" class="btn btn-danger m-2">Eliminar</button>
+        <button
+          type="button"
+          class="btn btn-danger m-2"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Eliminar
+        </button>
       </p>
     </div>
   </div>

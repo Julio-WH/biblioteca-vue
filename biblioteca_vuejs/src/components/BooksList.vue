@@ -14,14 +14,17 @@
       </div>
     </div>
   </div>
+  <BookModal />
 </template>
 <script>
 import BooksCards from "./BooksCards.vue";
+import BookModal from "./BookModal.vue";
 const axios = require("axios");
 export default {
   name: "BooksList",
   components: {
     BooksCards,
+    BookModal,
   },
   data() {
     return {
