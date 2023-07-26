@@ -4,7 +4,8 @@ node_modules
 
 
 # local env files
-.env.local
+.env
+server/.env
 .env.*.local
 
 # Log files
@@ -21,3 +22,5 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
+postgres_data/

@@ -1,0 +1,5 @@
+Instalacion
+creamos una carpeta 'postgres_data' en server para el docker-compose
+
+accedemos con el docker
+docker-compose exec postgres bash

@@ -18,7 +18,7 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">Se eliminara: </div>
+        <div class="modal-body">Se eliminara:</div>
         <div class="modal-footer">
           <button
             type="button"
