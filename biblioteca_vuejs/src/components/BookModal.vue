@@ -11,23 +11,16 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close"></button>
         </div>
-        <div class="modal-body">Se eliminara:</div>
+        <div class="modal-body">
+          Se eliminara: {{ dataBook.id }} - {{ dataBook.name }}
+        </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
-            Close
+          <button type="button" class="btn btn-secondary">Close</button>
+          <button @click="submit" type="button" class="btn btn-primary">
+            Si, Eliminar
           </button>
-          <button type="button" class="btn btn-primary">Si, Eliminar</button>
         </div>
       </div>
     </div>
@@ -35,8 +28,28 @@
 </template>
 
 <script>
+// const axios = require("axios");
+
 export default {
   name: "BookModal",
+  props: {
+    dataBook: {
+      type: Object,
+    },
+  },
+  methods: {
+    submit() {
+      // axios
+      //   .delete(`http://localhost:3000/api/v1/books/${this.dataBook.id}`)
+      //   .then((response) => {
+      //     const msg = `Se borro correctamente el Libro con ID: $(response.data.id)`;
+      //     console.log(response, msg);
+      //   })
+      //   .catch((error) => {
+      //     console.error(error);
+      //   });
+    },
+  },
 };
 </script>
 

@@ -33,39 +33,28 @@ class BooksService {
     }
 
     async findOne(id) {
-        const book = this.books.find(item=>item.id===parseInt(id));
-        if (!book) {
-            throw boom.notFound('book not found');
+        const book = await models.Book.findByPk(id);
+        if (!book){
+            throw boom.notFound('Book not found')
         }
-        return book
+        return book;
     }
 
     async update(id, changes) {
-        const index = this.books.findIndex(item => item.id === parseInt(id));
-        if (index === -1) {
-            throw boom.notFound('book not found');
-        }
-        const book = this.books[index];
-        this.books[index] = {
-        ...book,
-        ...changes
-        };
-    return this.books[index];
+        const book = await this.findOne(id);
+        const rta = await book.update(changes);
+        return rta;
     }
 
     async create(data) {
-        const newBook={id: (this.books.length)+1,...data}
-        this.books.push(newBook);
+        const newBook =  await models.Book.create(data)
         return newBook;
     }
 
     async delete(id) {
-        const index = this.books.findIndex(item => item.id === parseInt(id));
-        if (index === -1) {
-            throw boom.notFound('book not found');
-        }
-        this.books.splice(index, 1);
-        return { id };
+        const book =  await this.findOne(id);
+        await book.destroy();
+        return {id};
     }
 }
 

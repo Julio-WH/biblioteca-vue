@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="text-center mb-4">Listado de Libros con Vue.js</h1>
+    <h1 class="text-center mb-4">Listado de Libros</h1>
     <router-link :to="{ name: 'agregar' }" class="btn btn-info m-2"
       >Agregar</router-link
     >
@@ -10,11 +10,15 @@
     </div>
     <div v-else class="row row-cols-1 row-cols-md-4 g-2">
       <div class="col" v-for="(book, index) in list_books" :key="index">
-        <BooksCards :book="book" :btn="true" />
+        <BooksCards
+          :book="book"
+          :btn="true"
+          @data-emitted="receiveDataFromChild"
+        />
       </div>
     </div>
   </div>
-  <BookModal />
+  <BookModal :dataBook="receivedData" />
 </template>
 <script>
 import BooksCards from "./BooksCards.vue";
@@ -30,6 +34,7 @@ export default {
     return {
       count: 0,
       list_books: [],
+      receivedData: {},
     };
   },
   methods: {
@@ -46,6 +51,9 @@ export default {
         .catch((error) => {
           console.error(error);
         });
+    },
+    receiveDataFromChild(data) {
+      this.receivedData = data; // Asignar los datos recibidos a la variable del componente padre
     },
   },
   mounted() {
