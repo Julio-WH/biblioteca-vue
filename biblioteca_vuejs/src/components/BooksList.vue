@@ -4,6 +4,7 @@
     <router-link :to="{ name: 'agregar' }" class="btn btn-info m-2"
       >Agregar</router-link
     >
+    <p v-if="alert" @click="fnAlert">{{ alert }}</p>
     <p>Libros totales {{ count }}</p>
     <div v-if="!count" class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -18,7 +19,11 @@
       </div>
     </div>
   </div>
-  <BookModal :dataBook="receivedData" />
+  <BookModal
+    :dataBook="receivedData"
+    :modalShow="modalShow"
+    @data-emit-modal="receiveModalShow"
+  />
 </template>
 <script>
 import BooksCards from "./BooksCards.vue";
@@ -35,6 +40,8 @@ export default {
       count: 0,
       list_books: [],
       receivedData: {},
+      modalShow: false,
+      alert: null,
     };
   },
   methods: {
@@ -54,6 +61,19 @@ export default {
     },
     receiveDataFromChild(data) {
       this.receivedData = data; // Asignar los datos recibidos a la variable del componente padre
+      this.modalShow = true;
+    },
+    receiveModalShow(data) {
+      console.log(data);
+      this.modalShow = data.modal;
+      this.receivedData = {};
+      this.alert = data.msg;
+      if (data.response) {
+        this.get_book();
+      }
+    },
+    fnAlert() {
+      this.alert = null;
     },
   },
   mounted() {

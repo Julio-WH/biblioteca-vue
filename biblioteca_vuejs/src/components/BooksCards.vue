@@ -23,7 +23,6 @@
         <button
           type="button"
           class="btn btn-danger m-2"
-          data-bs-toggle="modal"
           data-bs-target="#exampleModal"
           @click="sendDataToModal"
         >

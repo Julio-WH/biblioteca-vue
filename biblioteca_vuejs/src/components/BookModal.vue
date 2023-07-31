@@ -11,13 +11,15 @@
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
-          <button type="button" class="btn-close"></button>
+          <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
         <div class="modal-body">
           Se eliminara: {{ dataBook.id }} - {{ dataBook.name }}
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary">Close</button>
+          <button type="button" class="btn btn-secondary" @click="closeModal">
+            Close
+          </button>
           <button @click="submit" type="button" class="btn btn-primary">
             Si, Eliminar
           </button>
@@ -28,7 +30,8 @@
 </template>
 
 <script>
-// const axios = require("axios");
+const axios = require("axios");
+import { Modal } from "bootstrap";
 
 export default {
   name: "BookModal",
@@ -36,18 +39,44 @@ export default {
     dataBook: {
       type: Object,
     },
+    modalShow: Boolean,
   },
   methods: {
     submit() {
-      // axios
-      //   .delete(`http://localhost:3000/api/v1/books/${this.dataBook.id}`)
-      //   .then((response) => {
-      //     const msg = `Se borro correctamente el Libro con ID: $(response.data.id)`;
-      //     console.log(response, msg);
-      //   })
-      //   .catch((error) => {
-      //     console.error(error);
-      //   });
+      axios
+        .delete(`http://localhost:3000/api/v1/books/${this.dataBook.id}`)
+        .then((response) => {
+          const msg = "Se borro correctamente el Libro: " + this.dataBook.name;
+          const data = {
+            type: "delete",
+            msg: msg,
+            modal: false,
+            response: response,
+          };
+          this.$emit("data-emit-modal", data);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    },
+    closeModal() {
+      const data = {
+        modal: false,
+      };
+      this.$emit("data-emit-modal", data);
+    },
+  },
+  mounted() {
+    const myModalEl = document.getElementById("exampleModal");
+    this.myModalAlternative = new Modal(myModalEl);
+  },
+  watch: {
+    modalShow: function (newModalShow) {
+      if (newModalShow) {
+        this.myModalAlternative.show();
+      } else {
+        this.myModalAlternative.hide();
+      }
     },
   },
 };
