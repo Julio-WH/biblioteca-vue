@@ -27,8 +27,11 @@ const AuthorSchema = {
 }
 
 class Author extends Model {
-    static associate(){
-        // associate
+    static associate(models){
+        this.hasMany(models.Book, {
+            as: 'books',
+            foreignKey: 'authorId'
+        });
     }
     static  config(sequelize) {
         return {

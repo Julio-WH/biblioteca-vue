@@ -5,6 +5,9 @@ const {Author,AuthorSchema} = require("./author.model")
 function setupModels(sequelize){
     Book.init(BookSchema,Book.config(sequelize));
     Author.init(AuthorSchema,Author.config(sequelize));
+
+    Author.associate(sequelize.models);
+    Book.associate(sequelize.models);
 }
 
 module.exports = setupModels;

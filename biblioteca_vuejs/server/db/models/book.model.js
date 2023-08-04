@@ -1,5 +1,7 @@
 const {Model, DataTypes, Sequelize} = require('sequelize')
 
+const { AUTHOR_TABLE } = require('./author.model')
+
 const BOOK_TABLE = 'books';
 
 const BookSchema = {
@@ -20,6 +22,23 @@ const BookSchema = {
         type: DataTypes.INTEGER,
         allowNull: false
     },
+    status: {
+        allowNull: false,
+        type: DataTypes.STRING,
+        defaultValue: "enable"
+    },
+    authorId: {
+        field: 'author_id',
+        allowNull: false,
+        type: DataTypes.INTEGER,
+        defaultValue: 1,
+        references: {
+            model: AUTHOR_TABLE,
+            key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
+    },
     createdAt:{
         allowNull: false,
         type: DataTypes.DATE,
@@ -29,8 +48,8 @@ const BookSchema = {
 }
 
 class Book extends Model {
-    static associate(){
-        // associate
+    static associate(models){
+        this.belongsTo(models.Author, {as: 'author'});
     }
     static  config(sequelize) {
         return {
