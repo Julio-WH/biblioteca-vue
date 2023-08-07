@@ -50,6 +50,12 @@ const BookSchema = {
 class Book extends Model {
     static associate(models){
         this.belongsTo(models.Author, {as: 'author'});
+        this.belongsToMany(models.Gender,{
+            through: models.BookGender,
+            as: "genders",
+            foreignKey: "bookId",
+            otherKey: "genderId",
+        })
     }
     static  config(sequelize) {
         return {
@@ -61,4 +67,4 @@ class Book extends Model {
     }
 }
 
-module.exports = {BOOK_TABLE, BookSchema, Book}
+module.exports = { BOOK_TABLE, BookSchema, Book };

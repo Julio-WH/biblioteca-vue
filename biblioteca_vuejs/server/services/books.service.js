@@ -1,20 +1,31 @@
 const boom = require('@hapi/boom');
 
-// const pool = require('../libs/postgres')
 const {models} = require('./../libs/sequelize')
 class BooksService {
-    // constructor(){
-    //     this.pool = pool;
-    //     this.pool.on('error',(err)=>{console.error(err)})
-    // }
+    options = {
+        include: [{
+            association: "author",
+            attributes: ["id", "name", "lastName"]
+        },{
+            association: 'genders',
+            through: { attributes: [] },
+            attributes: ["id", 'name']
+        }],
+    }
 
-    async find() {
-        const rta = await models.Book.findAll();
+    async find(query) {
+
+        const { limit, offset } = query
+        if(limit && offset){
+            this.options.limit = limit;
+            this.options.offset = offset;
+        }
+        const rta = await models.Book.findAll(this.options);
         return rta
     }
 
     async findOne(id) {
-        const book = await models.Book.findByPk(id);
+        const book = await models.Book.findByPk(id, this.options);
         if (!book){
             throw boom.notFound('Book not found')
         }

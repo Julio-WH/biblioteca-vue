@@ -7,7 +7,9 @@ class AuthorService {
         return rta
     }
     async findOne(id) {
-        const author = await models.Author.findByPk(id);
+        const author = await models.Author.findByPk(id, {
+            include: ['books']
+        });
         if (!author){
             throw boom.notFound('Author not found')
         }
