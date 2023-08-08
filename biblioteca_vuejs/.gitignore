@@ -5,7 +5,7 @@ node_modules
 
 # local env files
 .env
-server/.env
+../../biblioteca_api_node/.env
 .env.*.local
 
 # Log files
