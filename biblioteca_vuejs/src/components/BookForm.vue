@@ -28,9 +28,13 @@
               class="form-select"
               aria-label="Default select example"
             >
-              <option value="1">One</option>
-              <option value="2">Two</option>
-              <option value="3">Three</option>
+              <option
+                v-for="(autor, index) in autores"
+                :key="index"
+                :value="autor.id"
+              >
+                {{ autor.name }} {{ autor.lastName }}
+              </option>
             </select>
           </p>
           <p>
@@ -42,7 +46,7 @@
           <button @click="submit" type="submit" class="btn btn-success m-2">
             {{ computedTitle() }}
           </button>
-          <router-link class="btn btn-danger m-2" :to="{ name: 'home' }"
+          <router-link class="btn btn-danger m-2" :to="{ name: 'libro_lista' }"
             >Cancelar</router-link
           >
         </p>
@@ -64,8 +68,9 @@ export default {
       id: this.$route.params.id,
       nombre: "",
       descripcion: "",
-      autor: [0],
+      autores: [],
       precio: "",
+      autor: "",
     };
   },
   methods: {
@@ -79,6 +84,21 @@ export default {
         price: this.precio,
       };
     },
+    computedAuthor() {
+      axios
+        .get(`http://localhost:3000/api/v1/authors/`)
+        .then((response) => {
+          const dataAuthor = response.data;
+          if (!dataAuthor.length) {
+            this.$router.push({ name: "autor_lista" });
+          }
+          this.autores = dataAuthor;
+        })
+        .catch((error) => {
+          console.error(error);
+          //Todo Mostrar una Alerta
+        });
+    },
     fechDetailBook() {
       axios
         .get(`http://localhost:3000/api/v1/books/${this.id}`)
@@ -90,6 +110,7 @@ export default {
         })
         .catch((error) => {
           console.error(error);
+          //Todo Mostrar una Alerta
         });
     },
     async submit() {
@@ -100,7 +121,7 @@ export default {
         try {
           const response = await axios.post(url, this.computedBook());
           if (response.request.status === 201) {
-            this.$router.push({ name: "home" });
+            this.$router.push({ name: "libro_lista" }); //Todo mandar el home
           }
         } catch (e) {
           console.error(e);
@@ -109,7 +130,7 @@ export default {
         try {
           const response = await axios.patch(url, this.computedBook());
           if (response.request.status === 200) {
-            this.$router.push({ name: "home" });
+            this.$router.push({ name: "libro_lista" }); //Todo mandar el home
           }
         } catch (e) {
           console.error(e);
@@ -123,6 +144,7 @@ export default {
     }
     this.computedTitle();
     this.computedBook();
+    this.computedAuthor();
   },
 };
 </script>

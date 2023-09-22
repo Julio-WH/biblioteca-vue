@@ -16,7 +16,7 @@
       </p>
       <p v-if="btn" class="text-center">
         <router-link
-          :to="{ name: 'editar', params: { id: book.id } }"
+          :to="{ name: 'libro_editar', params: { id: book.id } }"
           class="btn btn-success m-2"
           >Editar</router-link
         >

@@ -1,11 +1,11 @@
 <template>
   <div class="container">
-    <h1 class="text-center mb-4">Listado de Libros</h1>
+    <h1 class="text-center mb-4">Lista de Autores</h1>
     <AlertComponent :dataAlert="dataAlert" />
-    <router-link :to="{ name: 'libro_agregar' }" class="btn btn-info m-2"
+    <router-link :to="{ name: 'autor_agregar' }" class="btn btn-info m-2"
       >Agregar</router-link
     >
-    <p>Libros totales {{ count }}</p>
+    <p>Autores totales {{ count }}</p>
     <div v-if="spinner" class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
@@ -53,14 +53,14 @@ export default {
     },
     get_book() {
       axios
-        .get("http://192.168.4.40:3000/api/v1/books")
+        .get("http://localhost:3000/api/v1/authors")
         .then((response) => {
           this.count = response.data.length;
           this.list_books = response.data;
           if (!this.list_books.length) {
             this.dataAlert = {
               alert: "warning",
-              msg: "No tienes ningun libro",
+              msg: "No tienes ningun autor agregado",
             };
           }
           this.spinner = false;

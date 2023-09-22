@@ -15,10 +15,12 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <router-link class="nav-link active" :to="{ name: 'home' }"
+          <router-link class="nav-link" :to="{ name: 'libro_lista' }"
             >Libros</router-link
           >
-          <a class="nav-link" href="#">Autores</a>
+          <router-link class="nav-link" :to="{ name: 'autor_lista' }"
+            >Autores</router-link
+          >
         </div>
       </div>
     </div>
