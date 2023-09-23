@@ -5,7 +5,7 @@
         <h1 class="text-center">{{ computedTitle() }} Libro</h1>
       </h1>
       <div class="col-sm-12 col-md-6">
-        <BooksCards :book="computedBook()" />
+        <BooksCards :book="computedBook()" :dataAutor="dataAutor" />
       </div>
       <form v-on:submit.prevent class="col-md-6">
         <div class="m-4">
@@ -27,6 +27,7 @@
               v-model="autor"
               class="form-select"
               aria-label="Default select example"
+              @change="getAuthorData"
             >
               <option
                 v-for="(autor, index) in autores"
@@ -71,6 +72,7 @@ export default {
       autores: [],
       precio: "",
       autor: "",
+      dataAutor: "",
     };
   },
   methods: {
@@ -82,7 +84,14 @@ export default {
         name: this.nombre,
         description: this.descripcion,
         price: this.precio,
+        authorId: this.autor,
       };
+    },
+    getAuthorData() {
+      const autorSeleccionado = this.autores.find(
+        (autor) => autor.id === this.autor
+      );
+      this.dataAutor = autorSeleccionado;
     },
     computedAuthor() {
       axios
@@ -104,9 +113,12 @@ export default {
         .get(`http://localhost:3000/api/v1/books/${this.id}`)
         .then((response) => {
           const data = response.data;
+          console.log(data);
           this.nombre = data.name;
           this.descripcion = data.description;
           this.precio = data.price;
+          this.autor = data.authorId;
+          this.dataAutor = data.author;
         })
         .catch((error) => {
           console.error(error);

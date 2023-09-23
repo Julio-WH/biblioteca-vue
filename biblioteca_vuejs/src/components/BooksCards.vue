@@ -10,6 +10,9 @@
       <p class="card-text">
         {{ book.description }}
       </p>
+      <p v-if="dataAutor" class="card-text">
+        {{ dataAutor.name }} {{ dataAutor.lastName }}
+      </p>
       <p v-if="book.price" class="card-text">
         Precio $
         {{ book.price }}
@@ -40,6 +43,7 @@ export default {
       type: Object,
     },
     btn: Boolean,
+    dataAutor: Object,
   },
   methods: {
     sendDataToModal() {

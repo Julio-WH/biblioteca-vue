@@ -40,13 +40,18 @@ export default {
       type: Object,
     },
     modalShow: Boolean,
+    toSubmit: String,
   },
   methods: {
     submit() {
       axios
-        .delete(`http://localhost:3000/api/v1/books/${this.dataBook.id}`)
+        .delete(
+          `http://localhost:3000/api/v1/${this.toSubmit}/${this.dataBook.id}`
+        )
         .then((response) => {
-          const msg = "Se borro correctamente el Libro: " + this.dataBook.name;
+          const msg = `Se borro correctamente el ${
+            this.toSubmit === "books" ? "Libro" : "Autor"
+          }: ${this.dataBook.name}`;
           const data = {
             type: "delete",
             msg: msg,

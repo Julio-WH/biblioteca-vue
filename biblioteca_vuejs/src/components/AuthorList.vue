@@ -25,6 +25,7 @@
   <BookModal
     :dataBook="receivedData"
     :modalShow="modalShow"
+    :toSubmit="toSubmit"
     @data-emit-modal="receiveModalShow"
   />
 </template>
@@ -48,6 +49,7 @@ export default {
       modalShow: false,
       spinner: true,
       dataAlert: {},
+      toSubmit: "authors",
     };
   },
   methods: {

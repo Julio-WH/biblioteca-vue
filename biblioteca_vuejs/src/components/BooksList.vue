@@ -17,6 +17,7 @@
         <BooksCards
           :book="book"
           :btn="true"
+          :dataAutor="book.author"
           @data-emitted="receiveDataFromChild"
         />
       </div>
@@ -25,6 +26,7 @@
   <BookModal
     :dataBook="receivedData"
     :modalShow="modalShow"
+    :toSubmit="toSubmit"
     @data-emit-modal="receiveModalShow"
   />
 </template>
@@ -48,6 +50,7 @@ export default {
       modalShow: false,
       spinner: true,
       dataAlert: {},
+      toSubmit: "books",
     };
   },
   methods: {
@@ -60,6 +63,7 @@ export default {
         .then((response) => {
           this.count = response.data.length;
           this.list_books = response.data;
+          console.log(this.list_books);
           if (!this.list_books.length) {
             this.dataAlert = {
               alert: "warning",
@@ -81,12 +85,16 @@ export default {
       this.modalShow = true;
     },
     receiveModalShow(data) {
-      console.log(data);
+      console.log("receiveModalShow", data);
       this.modalShow = data.modal;
       this.receivedData = {};
       this.alert = data.msg;
       if (data.response) {
         this.get_book();
+        this.dataAlert = {
+          alert: "success",
+          msg: data.msg,
+        };
       }
     },
   },
