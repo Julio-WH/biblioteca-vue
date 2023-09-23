@@ -1,7 +1,10 @@
 <template>
   <div class="container">
     <h1 class="text-center mb-4">Listado de Libros</h1>
-    <AlertComponent :dataAlert="dataAlert" />
+    <AlertComponent
+      :dataAlert="dataAlert"
+      v-if="Object.keys(dataAlert).length !== 0"
+    />
     <router-link :to="{ name: 'libro_agregar' }" class="btn btn-info m-2"
       >Agregar</router-link
     >
@@ -53,7 +56,7 @@ export default {
     },
     get_book() {
       axios
-        .get("http://192.168.4.40:3000/api/v1/books")
+        .get("http://localhost:3000/api/v1/books")
         .then((response) => {
           this.count = response.data.length;
           this.list_books = response.data;
@@ -66,7 +69,11 @@ export default {
           this.spinner = false;
         })
         .catch((error) => {
-          console.error(error);
+          this.dataAlert = {
+            alert: "danger",
+            msg: error.message,
+          };
+          this.spinner = false;
         });
     },
     receiveDataFromChild(data) {
