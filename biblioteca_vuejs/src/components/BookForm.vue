@@ -39,6 +39,24 @@
             </select>
           </p>
           <p>
+            <label class="form-label">Genero</label>
+            <select
+              v-model="gender"
+              multiple
+              class="form-select"
+              aria-label="Default select example"
+              @change="getGenderData"
+            >
+              <option
+                v-for="(gender, index) in genders_list"
+                :key="index"
+                :value="gender.id"
+              >
+                {{ gender.name }}
+              </option>
+            </select>
+          </p>
+          <p>
             <label>Precio $</label>
             <input v-model="precio" type="number" class="form-control" />
           </p>
@@ -70,9 +88,11 @@ export default {
       nombre: "",
       descripcion: "",
       autores: [],
+      genders_list: [],
       precio: "",
       autor: "",
       dataAutor: "",
+      gender: [],
     };
   },
   methods: {
@@ -80,6 +100,7 @@ export default {
       return !this.id ? "Agregar" : "Editar";
     },
     computedBook() {
+      //Todo Meter el genero
       return {
         name: this.nombre,
         description: this.descripcion,
@@ -93,6 +114,12 @@ export default {
       );
       this.dataAutor = autorSeleccionado;
     },
+    getGenderData() {
+      const generoSeleccionado = this.genders_list.find(
+        (genero) => genero.id === this.autor
+      );
+      this.dataAutor = generoSeleccionado;
+    },
     computedAuthor() {
       axios
         .get(`http://localhost:3000/api/v1/authors/`)
@@ -102,6 +129,21 @@ export default {
             this.$router.push({ name: "autor_lista" });
           }
           this.autores = dataAuthor;
+        })
+        .catch((error) => {
+          console.error(error);
+          //Todo Mostrar una Alerta
+        });
+    },
+    computedGender() {
+      axios
+        .get(`http://localhost:3000/api/v1/genders/`)
+        .then((response) => {
+          const dataGender = response.data;
+          if (!dataGender.length) {
+            this.$router.push({ name: "libro_lista" });
+          }
+          this.genders_list = dataGender;
         })
         .catch((error) => {
           console.error(error);
@@ -119,6 +161,7 @@ export default {
           this.precio = data.price;
           this.autor = data.authorId;
           this.dataAutor = data.author;
+          this.gender = data.genders[0].id;
         })
         .catch((error) => {
           console.error(error);
@@ -157,6 +200,7 @@ export default {
     this.computedTitle();
     this.computedBook();
     this.computedAuthor();
+    this.computedGender();
   },
 };
 </script>

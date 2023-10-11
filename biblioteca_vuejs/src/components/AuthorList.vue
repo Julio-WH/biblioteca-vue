@@ -13,38 +13,35 @@
       <span class="visually-hidden">Loading...</span>
     </div>
     <div v-else class="row row-cols-1 row-cols-md-4 g-2">
-      <div class="col" v-for="(book, index) in list_books" :key="index">
-        <BooksCards
-          :book="book"
-          :btn="true"
-          @data-emitted="receiveDataFromChild"
-        />
-      </div>
+      <AuthorTableList
+        :authors="list_authors"
+        @data-emitted="receiveDataFromChild"
+      />
     </div>
   </div>
-  <BookModal
-    :dataBook="receivedData"
+  <AlertModal
+    :dataModal="receivedData"
     :modalShow="modalShow"
     :toSubmit="toSubmit"
     @data-emit-modal="receiveModalShow"
   />
 </template>
 <script>
-import BooksCards from "./BooksCards.vue";
-import BookModal from "./BookModal.vue";
+import AlertModal from "./AlertModal.vue";
 import AlertComponent from "./AlertComponent.vue";
+import AuthorTableList from "@/components/AuthorTableList.vue";
 const axios = require("axios");
 export default {
-  name: "BooksList",
+  name: "AuthorsList",
   components: {
-    BooksCards,
-    BookModal,
+    AuthorTableList,
+    AlertModal,
     AlertComponent,
   },
   data() {
     return {
       count: 0,
-      list_books: [],
+      list_authors: [],
       receivedData: {},
       modalShow: false,
       spinner: true,
@@ -56,13 +53,13 @@ export default {
     increment() {
       this.count++;
     },
-    get_book() {
+    get_author() {
       axios
         .get("http://localhost:3000/api/v1/authors")
         .then((response) => {
           this.count = response.data.length;
-          this.list_books = response.data;
-          if (!this.list_books.length) {
+          this.list_authors = response.data;
+          if (!this.list_authors.length) {
             this.dataAlert = {
               alert: "warning",
               msg: "No tienes ningun autor agregado",
@@ -87,12 +84,12 @@ export default {
       this.receivedData = {};
       this.alert = data.msg;
       if (data.response) {
-        this.get_book();
+        this.get_author();
       }
     },
   },
   mounted() {
-    this.get_book();
+    this.get_author();
   },
 };
 </script>

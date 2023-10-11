@@ -23,8 +23,8 @@
       </div>
     </div>
   </div>
-  <BookModal
-    :dataBook="receivedData"
+  <AlertModal
+    :dataModal="receivedData"
     :modalShow="modalShow"
     :toSubmit="toSubmit"
     @data-emit-modal="receiveModalShow"
@@ -32,14 +32,14 @@
 </template>
 <script>
 import BooksCards from "./BooksCards.vue";
-import BookModal from "./BookModal.vue";
+import AlertModal from "./AlertModal.vue";
 import AlertComponent from "./AlertComponent.vue";
 const axios = require("axios");
 export default {
   name: "BooksList",
   components: {
     BooksCards,
-    BookModal,
+    AlertModal,
     AlertComponent,
   },
   data() {

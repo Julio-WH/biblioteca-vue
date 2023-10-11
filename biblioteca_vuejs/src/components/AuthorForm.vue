@@ -52,12 +52,12 @@ export default {
     },
     fechDetailBook() {
       axios
-        .get(`http://localhost:3000/api/v1/books/${this.id}`)
+        .get(`http://localhost:3000/api/v1/authors/${this.id}`)
         .then((response) => {
           const data = response.data;
+          console.log(data);
           this.nombre = data.name;
-          this.descripcion = data.description;
-          this.precio = data.price;
+          this.apellidos = data.lastName;
         })
         .catch((error) => {
           console.error(error);
@@ -81,7 +81,7 @@ export default {
         try {
           const response = await axios.patch(url, this.computedAuthor());
           if (response.request.status === 200) {
-            this.$router.push({ name: "libro_lista" }); //Todo mandar el home
+            this.$router.push({ name: "autor_lista" }); //Todo mandar el home
           }
         } catch (e) {
           console.error(e);

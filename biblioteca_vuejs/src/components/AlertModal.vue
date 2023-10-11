@@ -14,7 +14,7 @@
           <button type="button" class="btn-close" @click="closeModal"></button>
         </div>
         <div class="modal-body">
-          Se eliminara: {{ dataBook.id }} - {{ dataBook.name }}
+          Se eliminara: {{ dataModal.id }} - {{ dataModal.name }}
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" @click="closeModal">
@@ -34,9 +34,9 @@ const axios = require("axios");
 import { Modal } from "bootstrap";
 
 export default {
-  name: "BookModal",
+  name: "AlertModal",
   props: {
-    dataBook: {
+    dataModal: {
       type: Object,
     },
     modalShow: Boolean,
@@ -46,12 +46,12 @@ export default {
     submit() {
       axios
         .delete(
-          `http://localhost:3000/api/v1/${this.toSubmit}/${this.dataBook.id}`
+          `http://localhost:3000/api/v1/${this.toSubmit}/${this.dataModal.id}`
         )
         .then((response) => {
           const msg = `Se borro correctamente el ${
             this.toSubmit === "books" ? "Libro" : "Autor"
-          }: ${this.dataBook.name}`;
+          }: ${this.dataModal.name}`;
           const data = {
             type: "delete",
             msg: msg,
