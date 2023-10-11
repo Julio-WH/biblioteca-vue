@@ -5,7 +5,11 @@
         <h1 class="text-center">{{ computedTitle() }} Libro</h1>
       </h1>
       <div class="col-sm-12 col-md-6">
-        <BooksCards :book="computedBook()" :dataAutor="dataAutor" />
+        <BooksCards
+          :book="computedBook()"
+          :dataAutor="dataAutor"
+          :dataGenders="data_genders"
+        />
       </div>
       <form v-on:submit.prevent class="col-md-6">
         <div class="m-4">
@@ -89,6 +93,7 @@ export default {
       descripcion: "",
       autores: [],
       genders_list: [],
+      data_genders: [],
       precio: "",
       autor: "",
       dataAutor: "",
@@ -100,13 +105,17 @@ export default {
       return !this.id ? "Agregar" : "Editar";
     },
     computedBook() {
-      //Todo Meter el genero
-      return {
+      const data_book = {
         name: this.nombre,
         description: this.descripcion,
         price: this.precio,
         authorId: this.autor,
       };
+      if (this.gender.length) {
+        data_book.genders = this.gender;
+      }
+      console.log(data_book);
+      return data_book;
     },
     getAuthorData() {
       const autorSeleccionado = this.autores.find(
@@ -115,10 +124,13 @@ export default {
       this.dataAutor = autorSeleccionado;
     },
     getGenderData() {
-      const generoSeleccionado = this.genders_list.find(
-        (genero) => genero.id === this.autor
-      );
-      this.dataAutor = generoSeleccionado;
+      this.data_genders = [];
+      this.gender.forEach((elemento) => {
+        const generoSeleccionado = this.genders_list.find(
+          (genero) => genero.id === elemento
+        );
+        this.data_genders.push(generoSeleccionado);
+      });
     },
     computedAuthor() {
       axios
@@ -156,12 +168,17 @@ export default {
         .then((response) => {
           const data = response.data;
           console.log(data);
+          if (data.genders.length) {
+            data.genders.forEach((elemento) => {
+              this.gender.push(elemento.id);
+              this.data_genders = data.genders;
+            });
+          }
           this.nombre = data.name;
           this.descripcion = data.description;
           this.precio = data.price;
           this.autor = data.authorId;
           this.dataAutor = data.author;
-          this.gender = data.genders[0].id;
         })
         .catch((error) => {
           console.error(error);

@@ -18,6 +18,7 @@
           :book="book"
           :btn="true"
           :dataAutor="book.author"
+          :dataGenders="book.genders"
           @data-emitted="receiveDataFromChild"
         />
       </div>
