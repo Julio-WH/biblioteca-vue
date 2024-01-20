@@ -13,6 +13,14 @@
       <p v-if="dataAutor" class="card-text">
         {{ dataAutor.name }} {{ dataAutor.lastName }}
       </p>
+      <p v-if="dataGenders" class="card-text">
+        Géneros:
+        <span v-for="(gender, index) in dataGenders" :key="index">
+          {{ gender.name }}
+          <!-- Agrega una coma y un espacio después de cada género, excepto el último -->
+          <span v-if="index < dataGenders.length - 1">, </span>
+        </span>
+      </p>
       <p v-if="book.price" class="card-text">
         Precio $
         {{ book.price }}
@@ -44,6 +52,7 @@ export default {
     },
     btn: Boolean,
     dataAutor: Object,
+    dataGenders: Array,
   },
   methods: {
     sendDataToModal() {
