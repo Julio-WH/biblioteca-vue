@@ -46,7 +46,7 @@ export default {
     submit() {
       axios
         .delete(
-          `http://localhost:3000/api/v1/${this.toSubmit}/${this.dataModal.id}`
+          `${process.env.VUE_APP_ENDPOINT}${this.toSubmit}/${this.dataModal.id}`
         )
         .then((response) => {
           const msg = `Se borro correctamente el ${

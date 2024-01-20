@@ -122,7 +122,7 @@ export default {
     },
     computedAuthor() {
       axios
-        .get(`http://localhost:3000/api/v1/authors/`)
+        .get(`${process.env.VUE_APP_ENDPOINT}authors/`)
         .then((response) => {
           const dataAuthor = response.data;
           if (!dataAuthor.length) {
@@ -137,7 +137,7 @@ export default {
     },
     computedGender() {
       axios
-        .get(`http://localhost:3000/api/v1/genders/`)
+        .get(`${process.env.VUE_APP_ENDPOINT}genders/`)
         .then((response) => {
           const dataGender = response.data;
           if (!dataGender.length) {
@@ -152,7 +152,7 @@ export default {
     },
     fechDetailBook() {
       axios
-        .get(`http://localhost:3000/api/v1/books/${this.id}`)
+        .get(`${process.env.VUE_APP_ENDPOINT}books/${this.id}`)
         .then((response) => {
           const data = response.data;
           console.log(data);
@@ -170,8 +170,8 @@ export default {
     },
     async submit() {
       const url = !this.id
-        ? "http://localhost:3000/api/v1/books"
-        : `http://localhost:3000/api/v1/books/${this.id}`;
+        ? `${process.env.VUE_APP_ENDPOINT}books`
+        : `${process.env.VUE_APP_ENDPOINT}books/${this.id}`;
       if (!this.id) {
         try {
           const response = await axios.post(url, this.computedBook());

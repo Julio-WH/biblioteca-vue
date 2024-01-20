@@ -59,7 +59,7 @@ export default {
     },
     get_book() {
       axios
-        .get("http://localhost:3000/api/v1/books")
+        .get(`${process.env.VUE_APP_ENDPOINT}books`)
         .then((response) => {
           this.count = response.data.length;
           this.list_books = response.data;

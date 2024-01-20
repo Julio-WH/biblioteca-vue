@@ -52,7 +52,7 @@ export default {
     },
     fechDetailBook() {
       axios
-        .get(`http://localhost:3000/api/v1/authors/${this.id}`)
+        .get(`${process.env.VUE_APP_ENDPOINT}authors/${this.id}`)
         .then((response) => {
           const data = response.data;
           console.log(data);
@@ -66,8 +66,8 @@ export default {
     },
     async submit() {
       const url = !this.id
-        ? "http://localhost:3000/api/v1/authors/"
-        : `http://localhost:3000/api/v1/authors/${this.id}`;
+        ? `${process.env.VUE_APP_ENDPOINT}authors/`
+        : `${process.env.VUE_APP_ENDPOINT}authors/${this.id}`;
       if (!this.id) {
         try {
           const response = await axios.post(url, this.computedAuthor());

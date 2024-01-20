@@ -54,8 +54,9 @@ export default {
       this.count++;
     },
     get_author() {
+      console.log(`${process.env.VUE_APP_ENDPOINT}authors`);
       axios
-        .get("http://localhost:3000/api/v1/authors")
+        .get(`${process.env.VUE_APP_ENDPOINT}authors`)
         .then((response) => {
           this.count = response.data.length;
           this.list_authors = response.data;
